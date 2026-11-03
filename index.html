@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jonghee Jeon</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Jonghee Jeon, KAIST. Reading the body's signals, from movement and heartbeat to molecules.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; a single spectral trace in the hero runs movement → heartbeat → Raman peaks, and the three signal layers organise the research. */
+:root{
+  --bg:#f5f6f3; --surface:#ffffff; --ink:#18201f; --muted:#5b6664; --rule:#d9ddd8;
+  --accent:#1f6f6a; --accent-soft:#dcebe8; --todo:#9a5b00; --todo-bg:#fff4dc;
+  --display:"Literata", Georgia, "Times New Roman", serif;
+  --body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111615; --surface:#171d1c; --ink:#e6ebe9; --muted:#9aa7a4; --rule:#2a3331;
+    --accent:#6cc3b9; --accent-soft:#1d3532; --todo:#f0b45a; --todo-bg:#2e2412; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111615; --surface:#171d1c; --ink:#e6ebe9; --muted:#9aa7a4; --rule:#2a3331;
+  --accent:#6cc3b9; --accent-soft:#1d3532; --todo:#f0b45a; --todo-bg:#2e2412; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--body)}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+
+nav{border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;padding-block:14px;font-size:14px}
+nav .name{font-family:var(--display);font-weight:600;font-size:17px;margin-right:auto;color:var(--ink);text-decoration:none}
+nav a{color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent)}
+
+header.hero .wrap{padding-block:56px 28px}
+header.hero .wrap+.wrap{padding-block:0 8px}
+.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+h1{font:600 clamp(34px,6vw,52px)/1.08 var(--display);margin:0 0 6px;text-wrap:balance;letter-spacing:-.01em}
+.hangul{font:400 18px/1 var(--body);color:var(--muted);margin:0 0 26px}
+.thesis{font:400 clamp(20px,2.6vw,25px)/1.45 var(--display);max-width:34ch;margin:0 0 22px;text-wrap:balance}
+.lede{max-width:62ch;color:var(--muted);margin:0 0 24px}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.links a{font-size:14px;padding:7px 14px;border:1px solid var(--rule);border-radius:999px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.links a:hover{border-color:var(--accent);color:var(--accent)}
+.links a.todo{color:var(--todo);background:var(--todo-bg);border:1px dashed var(--todo)}
+
+.trace{margin-top:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.trace canvas{display:block;width:100%;height:150px}
+.trace-legend{display:grid;grid-template-columns:repeat(3,1fr);font:400 11.5px/1.4 var(--mono);color:var(--muted);padding-block:8px;gap:8px}
+.trace-legend span:nth-child(2){text-align:center}
+.trace-legend span:nth-child(3){text-align:right}
+
+section{padding-block:44px;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0}
+h2{font:600 26px/1.2 var(--display);margin:0 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 28px;max-width:62ch}
+h3{font:600 17px/1.35 var(--body);margin:0}
+
+.layers{display:grid;gap:28px}
+.layer{display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:start}
+.layer>div{min-width:0}
+.layer-tag{font:500 12px/1.5 var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.layer-tag small{display:block;color:var(--muted);text-transform:none;letter-spacing:0;font-size:12px;margin-top:2px}
+.proj{padding-block:0 16px;margin-bottom:16px;border-bottom:1px dashed var(--rule)}
+.proj:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.proj p{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.meta{font:400 12.5px/1.5 var(--mono);color:var(--muted);margin-top:6px}
+
+.now{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:24px}
+.now p{margin:0 0 14px;max-width:64ch}
+.eq{font:400 13px/1.6 var(--mono);color:var(--ink);background:var(--accent-soft);padding:10px 14px;border-radius:4px;overflow-x:auto;white-space:nowrap;margin:0 0 18px}
+.studies{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.study{min-width:0;border-top:2px solid var(--accent);padding-top:10px}
+.study p{margin:4px 0 0;font-size:14.5px;color:var(--muted)}
+.pill{display:inline-block;font:500 11px/1 var(--mono);padding:4px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-top:8px}
+
+.list{display:grid;gap:18px;margin:0;padding:0;list-style:none}
+.row{display:grid;grid-template-columns:120px 1fr;gap:20px}
+.row>div{min-width:0}
+.when{font:400 13px/1.6 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:1px}
+.row p{margin:2px 0 0;color:var(--muted)}
+.title-i{font-style:italic}
+
+.todo{color:var(--todo);background:var(--todo-bg);border:1px dashed var(--todo);border-radius:3px;padding:0 4px;font-size:.92em}
+
+footer .wrap{padding-block:32px 48px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:640px){
+  header.hero .wrap{padding-block:36px 20px}
+  .layer,.row{grid-template-columns:1fr;gap:6px}
+  .studies{grid-template-columns:1fr}
+  .trace canvas{height:120px}
+}
+@media print{nav,.trace{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+
+<nav aria-label="Sections">
+  <div class="wrap">
+    <a class="name" href="#top">Jonghee Jeon</a>
+    <a href="#research">Research</a>
+    <a href="#now">Ph.D. work</a>
+    <a href="#publications">Publications</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Ph.D. student · NMAIL, KAIST <span class="todo">confirm department and advisor</span></p>
+    <h1>Jonghee Jeon</h1>
+    <p class="hangul" lang="ko">전종희</p>
+    <p class="thesis">Our bodies know things before we do. I use computer science to read their signals and bring that knowledge back to people.</p>
+    <p class="lede">I started with wearables that read how we move and how our heart responds. I now work with Raman and SERS spectroscopy, which reads the molecules a body carries, and build methods that explain every band of a biological spectrum by the molecule behind it. I also co-founded rAI, which makes Raman analysis usable without a spectroscopist.</p>
+    <div class="links">
+      <a href="mailto:jjeon365@kaist.ac.kr">jjeon365@kaist.ac.kr</a>
+      <a href="https://github.com/kaist-jonghee">GitHub</a><!-- update if username changes -->
+      <a href="https://www.rai-sw.com">rAI</a>
+      <a href="#" class="todo">CV (PDF)</a>
+      <a href="#" class="todo">Google Scholar</a>
+      <a href="#" class="todo">LinkedIn</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="trace" aria-hidden="true">
+      <canvas id="trace"></canvas>
+      <div class="trace-legend"><span>movement · IMU, m/s²</span><span>heartbeat · PPG</span><span>molecules · Raman, cm⁻¹</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="research">
+  <div class="wrap">
+    <h2>Research</h2>
+    <p class="sub">Three kinds of signal the body gives off, moving from the surface toward its chemistry.</p>
+
+    <div class="layers">
+      <div class="layer">
+        <div class="layer-tag">What we do<small>movement, routine, gait</small></div>
+        <div>
+          <div class="proj">
+            <h3>IMU smart collar for canine health monitoring</h3>
+            <p>A collar-mounted IMU with semi-automatic video labelling and temporal-convolution segmentation of 20 dog behaviours, including eating, drinking, urination and defecation, turned into daily activity reports. Included a pedometer and gait features as a first step toward detecting patellar luxation.</p>
+            <div class="meta">M.S. thesis · 2023–2025 · IMU, MS-TCN, action segmentation</div>
+          </div>
+          <div class="proj">
+            <h3>Full-body motion from fewer IMUs</h3>
+            <p>Reconstructing full-body pose from 4–5 body-worn IMUs instead of the usual 6, using transformer models on AMASS, DIP-IMU and in-house recordings. Supervised as advisor of an undergraduate research program student.</p>
+            <div class="meta">2024 · Advisor (HRP) · motion capture, transformers</div>
+          </div>
+          <div class="proj">
+            <h3>SLoMo: sports location from a single wrist IMU</h3>
+            <p>Estimating where a player is on the field from one wrist-worn IMU.</p>
+            <div class="meta">2024 · <span class="todo">your role and status</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-tag">How we feel<small>heartbeat, HRV, brain</small></div>
+        <div>
+          <div class="proj">
+            <h3>Smart earphone that responds to mental state</h3>
+            <p>A self-built in-ear PPG sensor, motion-artifact removal and HRV-based emotion classification, used to choose music for the listener. The same pipeline was tried on a sensing pencil to describe study sessions.</p>
+            <div class="meta">B.S. thesis and URP · 2021–2022 · PPG, HRV, IMAT</div>
+          </div>
+          <div class="proj">
+            <h3>Heart sensing through fur</h3>
+            <p>Collar prototypes that read a dog's heartbeat: a PPG probe that reaches through the coat, and a fluid-filled silicone stethoscope coupled to a microphone. These prototypes led to the IMU design used in the M.S. thesis.</p>
+            <div class="meta">2020–2022 · PPG, acoustic sensing, hardware</div>
+          </div>
+          <div class="proj">
+            <h3>Improving P300-based BCIs with tDCS</h3>
+            <p>Transcranial direct current stimulation of the left ventrolateral prefrontal cortex to improve P300 brain–computer interface performance.</p>
+            <div class="meta">2022 · BCI Winter Conference</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-tag">What we're made of<small>molecules, Raman/SERS</small></div>
+        <div>
+          <div class="proj">
+            <h3>Automatic preprocessing for Raman spectra</h3>
+            <p>Deep-learning regression and an automatic search over preprocessing pipelines that lets PLS and other chemometric models beat raw PLS, developed in an industry project with CJ.</p>
+            <div class="meta">2022–2025 · chemometrics, PLS, deep learning</div>
+          </div>
+          <div class="proj">
+            <h3>rAI-Q</h3>
+            <p>Raman and SERS analysis software with automatic preprocessing and an interface built for people without spectroscopy training. Used with pharmaceutical and bio customers.</p>
+            <div class="meta">2024–present · co-founder, rAI · <a href="https://www.rai-sw.com">rai-sw.com</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="now">
+  <div class="wrap">
+    <h2>Ph.D. work</h2>
+    <p class="sub">Explaining biological spectra, band by band.</p>
+    <div class="now">
+      <p>An accurate classifier on SERS data can still be reading the substrate instead of the sample. My Ph.D. builds a method that, given a short sample description and one measured spectrum, assigns each band to a molecule, a vibration and its chemical environment. A spectrum counts as explained when what is left over matches replicate noise.</p>
+      <div class="eq">y(ν) = Σₖ aₖ · L(ν; ν̃ₖ(env), γₖ) + B(ν) + ε(ν),   ε ~ replicate noise</div>
+      <div class="studies">
+        <div class="study">
+          <h3>Peptides</h3>
+          <p>20 amino acids and 2 dipeptides, about 200 spectra each. Every band of a known biomolecule, explained.</p>
+          <span class="pill">ongoing</span>
+        </div>
+        <div class="study">
+          <h3>DNA methylation</h3>
+          <p>Separating DNA, methylation and substrate contributions in SERS, a step toward cancer markers.</p>
+          <span class="pill">ongoing</span>
+        </div>
+        <div class="study">
+          <h3>Urine</h3>
+          <p>Which metabolites separate clinical classes, so a classifier's decision has a biological reason.</p>
+          <span class="pill">next</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrap">
+    <h2>Publications</h2>
+    <p class="sub"><span class="todo">Add authors, full venue names and links. Collar submissions (UbiComp, UR 2025) only if accepted.</span></p>
+    <ul class="list">
+      <li class="row">
+        <div class="when">2022</div>
+        <div><span class="title-i">Enhancing the performance of P300-based BCIs by tDCS of the left VL-PFC.</span><p>International Winter Conference on Brain–Computer Interface. <span class="todo">authors</span></p></div>
+      </li>
+      <li class="row">
+        <div class="when">2024</div>
+        <div><span class="title-i">SLoMo: Sports Location from Motion using a Single Wrist IMU.</span><p>Submitted to IMWUT. <span class="todo">authors, status</span></p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <p class="sub">Industry projects, the company, and teaching.</p>
+    <ul class="list">
+      <li class="row">
+        <div class="when">2024–now</div>
+        <div><h3>Co-founder, rAI</h3><p>Built rAI-Q, Raman/SERS analysis software for non-specialists.</p></div>
+      </li>
+      <li class="row">
+        <div class="when">2022–2025</div>
+        <div><h3>Raman spectroscopy project, CJ</h3><p>Regression models on undisclosed targets, then automatic preprocessing for chemometric models.</p></div>
+      </li>
+      <li class="row">
+        <div class="when">2023</div>
+        <div><h3>Semiconductor process anomaly detection, Samsung Electronics</h3><p>Classification models and signal data augmentation for unlabeled high-dimensional process time series.</p></div>
+      </li>
+      <li class="row">
+        <div class="when">2024</div>
+        <div><h3>Research advisor, HRP</h3><p>Advised an undergraduate on full-body motion from fewer IMUs.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <h2>Education</h2>
+    <p class="sub">All at KAIST.</p>
+    <ul class="list">
+      <li class="row">
+        <div class="when"><span class="todo">2025</span>–now</div>
+        <div><h3>Ph.D., <span class="todo">department</span></h3><p>Advisor: <span class="todo">name</span></p></div>
+      </li>
+      <li class="row">
+        <div class="when">2023–2025</div>
+        <div><h3>M.S., <span class="todo">department</span></h3><p class="title-i">Design and Behavioral Segmentation of an IMU-Based Wearable for Canine Health Monitoring</p></div>
+      </li>
+      <li class="row">
+        <div class="when">2019–2023</div>
+        <div><h3>B.S., <span class="todo">major</span>, minor in Biology</h3><p class="title-i">Development of a Smart-Earphone that plays music according to the user's mental state</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Jonghee Jeon · Daejeon, Korea</span>
+    <span>Last updated November 2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var c = document.getElementById('trace');
+  if(!c || !c.getContext) return;
+  var ctx = c.getContext('2d');
+  // One continuous trace: IMU wiggle, then PPG pulses, then Raman peaks.
+  var peaks = [[0.62,0.35,0.006],[0.66,0.55,0.004],[0.70,0.9,0.003],[0.735,0.3,0.005],[0.79,0.5,0.006],[0.84,0.7,0.004],[0.88,0.4,0.007],[0.93,0.6,0.005]];
+  var labels = [[0.70,'1004'],[0.84,'1450'],[0.93,'1655']];
+  function y(t){
+    if(t < 0.32){ // IMU acceleration
+      return 0.18*Math.sin(t*120)*Math.sin(t*9) + 0.08*Math.sin(t*310);
+    }
+    if(t < 0.58){ // PPG pulses
+      var p = ((t-0.32)/0.26*5) % 1;
+      var v = Math.exp(-Math.pow((p-0.25)/0.07,2))*0.7 + Math.exp(-Math.pow((p-0.5)/0.09,2))*0.25;
+      return v - 0.2;
+    }
+    var s = -0.25 + (t-0.58)*0.3; // Raman baseline plus Lorentzians
+    for(var i=0;i<peaks.length;i++){ var d=(t-peaks[i][0])/peaks[i][2]; s += peaks[i][1]/(1+d*d); }
+    return s;
+  }
+  function draw(){
+    var w = c.clientWidth, h = c.clientHeight, r = window.devicePixelRatio || 1;
+    c.width = w*r; c.height = h*r; ctx.setTransform(r,0,0,r,0,0);
+    var cs = getComputedStyle(document.documentElement);
+    var ink = cs.getPropertyValue('--accent').trim() || '#1f6f6a';
+    var rule = cs.getPropertyValue('--rule').trim() || '#d9ddd8';
+    var muted = cs.getPropertyValue('--muted').trim() || '#5b6664';
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle = rule; ctx.lineWidth = 1; ctx.setLineDash([3,4]);
+    [0.32,0.58].forEach(function(t){ ctx.beginPath(); ctx.moveTo(t*w+.5,8); ctx.lineTo(t*w+.5,h-8); ctx.stroke(); });
+    ctx.setLineDash([]);
+    var mid = h*0.62, amp = h*0.5;
+    ctx.beginPath(); ctx.strokeStyle = ink; ctx.lineWidth = 1.6; ctx.lineJoin = 'round';
+    for(var x=0;x<=w;x++){ var t=x/w, yy = mid - y(t)*amp; if(x===0) ctx.moveTo(x,yy); else ctx.lineTo(x,yy); }
+    ctx.stroke();
+    ctx.fillStyle = muted; ctx.font = '10.5px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+    labels.forEach(function(l){ var yy = mid - y(l[0])*amp - 8; if(yy > 12) ctx.fillText(l[1], l[0]*w, yy); });
+  }
+  draw();
+  window.addEventListener('resize', draw);
+  if(window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    if(mq.addEventListener) mq.addEventListener('change', draw);
+  }
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+})();
+</script>
+</body>
+</html>
