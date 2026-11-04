@@ -13,7 +13,7 @@
 /* Layout: light, product-page style. Centered hero, alternating white and soft-grey bands, rounded tiles. One accent blue. */
 :root{
   --bg:#ffffff; --band:#f5f5f7; --tile:#ffffff; --ink:#1d1d1f; --muted:#6e6e73; --rule:#d2d2d7;
-  --accent:#0071e3; --accent-ink:#0066cc; --todo:#b25000; --todo-bg:#fff4e5;
+  --accent:#0071e3; --accent-ink:#0066cc;
   --sans:-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
   --mono:ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   color-scheme:light;
@@ -49,7 +49,6 @@ h1{font-size:clamp(44px,8vw,80px);line-height:1.05;font-weight:700;letter-spacin
 .btn.primary:hover{background:#0077ed;text-decoration:none}
 .btn.ghost{color:var(--accent-ink);border-color:var(--accent-ink)}
 .btn.ghost:hover{background:var(--accent);color:#fff;border-color:var(--accent);text-decoration:none}
-.btn.todo{color:var(--todo);background:var(--todo-bg);border:1px dashed var(--todo)}
 
 .trace{max-width:780px;margin:56px auto 0}
 .trace canvas{display:block;width:100%;height:120px}
@@ -94,7 +93,6 @@ section:not(.band) .list{background:var(--band)}
 .row p{margin:4px 0 0;color:var(--muted);font-size:15.5px}
 .title-i{font-style:italic}
 
-.todo{color:var(--todo);background:var(--todo-bg);border:1px dashed var(--todo);border-radius:4px;padding:0 5px;font-size:.9em;font-style:normal}
 .note{max-width:760px;margin:0 auto 18px;text-align:center;font-size:14px}
 
 footer{background:var(--band);border-top:1px solid var(--rule)}
@@ -136,9 +134,6 @@ footer .wrap{padding-block:22px 34px;color:var(--muted);font-size:12.5px;display
       <a class="btn primary" href="mailto:jjeon365@kaist.ac.kr">jjeon365@kaist.ac.kr</a>
       <a class="btn ghost" href="https://github.com/kaist-jonghee">GitHub</a>
       <a class="btn ghost" href="https://www.rai-sw.com">rAI</a>
-      <a class="btn todo" href="#">CV (PDF)</a>
-      <a class="btn todo" href="#">Google Scholar</a>
-      <a class="btn todo" href="#">LinkedIn</a>
     </div>
     <div class="trace" aria-hidden="true">
       <canvas id="trace"></canvas>
@@ -171,7 +166,7 @@ footer .wrap{padding-block:22px 34px;color:var(--muted);font-size:12.5px;display
         <article class="tile">
           <h3>SLoMo</h3>
           <p>Estimating a player's location on the field from a single wrist-worn IMU.</p>
-          <div class="meta">2024 · <span class="todo">role and status</span></div>
+          <div class="meta">2024 · Submitted to ACM IMWUT</div>
         </article>
       </div>
     </div>
@@ -246,15 +241,14 @@ footer .wrap{padding-block:22px 34px;color:var(--muted);font-size:12.5px;display
 <section id="publications" class="band">
   <div class="wrap">
     <div class="head"><h2>Publications</h2></div>
-    <p class="note"><span class="todo">Add authors, full venue names and links</span></p>
     <ul class="list">
       <li class="row">
         <div class="when">2022</div>
-        <div><h3 class="title-i">Enhancing the performance of P300-based BCIs by tDCS of the left VL-PFC</h3><p>International Winter Conference on Brain–Computer Interface. <span class="todo">authors</span></p></div>
+        <div><h3 class="title-i">Enhancing the performance of P300-based BCIs by tDCS of the left VL-PFC</h3><p>International Winter Conference on Brain–Computer Interface (BCI 2022).</p></div>
       </li>
       <li class="row">
         <div class="when">2024</div>
-        <div><h3 class="title-i">SLoMo: Sports Location from Motion using a Single Wrist IMU</h3><p>Submitted to IMWUT. <span class="todo">authors, status</span></p></div>
+        <div><h3 class="title-i">SLoMo: Sports Location from Motion using a Single Wrist IMU</h3><p>Submitted to Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies (IMWUT).</p></div>
       </li>
     </ul>
   </div>
@@ -289,7 +283,7 @@ footer .wrap{padding-block:22px 34px;color:var(--muted);font-size:12.5px;display
     <div class="head"><h2>Education</h2><p class="sub">KAIST, Daejeon</p></div>
     <ul class="list">
       <li class="row">
-        <div class="when"><span class="todo">2025</span>–now</div>
+        <div class="when">2025–now</div>
         <div><h3>Ph.D., School of Computing</h3><p>Advisor: Prof. Sungho Jo</p></div>
       </li>
       <li class="row">
@@ -298,7 +292,7 @@ footer .wrap{padding-block:22px 34px;color:var(--muted);font-size:12.5px;display
       </li>
       <li class="row">
         <div class="when">2019–2023</div>
-        <div><h3>B.S., <span class="todo">major</span>, minor in Biology</h3><p class="title-i">Development of a Smart-Earphone that plays music according to the user's mental state</p></div>
+        <div><h3>B.S., minor in Biology</h3><p class="title-i">Development of a Smart-Earphone that plays music according to the user's mental state</p></div>
       </li>
     </ul>
   </div>
